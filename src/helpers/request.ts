@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { CustomedResponseData } from "axios";
 // import { MessageBox, Message } from "element-ui";
 // import store from "@/store";
 // import router from "@/router";
@@ -31,7 +31,7 @@ request.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = response.data;
+    const res: CustomedResponseData<any> = response.data;
     if (res.success) {
       return [null, res.data];
     }
@@ -63,7 +63,7 @@ request.interceptors.response.use(
     //     });
     //     break;
     // }
-    // return [new Error(res.message || "Error"), null];
+    return [new Error(res.message || "Error"), null];
   },
   error => {
     // Message({
