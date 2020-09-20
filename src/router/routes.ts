@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "/",
-    redirect: "/Login",
+    redirect: "/login",
     meta: { hidden: true }
   },
   {
