@@ -1,3 +1,4 @@
+/* eslint-disable */
 // 注登销
 const jwt = require("jsonwebtoken");
 const cipher = "12345678";
@@ -6,7 +7,7 @@ module.exports = {
   "POST /auth/login": (req, res) => {
     const { username } = req.body;
     let result = { success: false, message: "账号或密码错误" };
-    let user = getUserinfo(username);
+    const user = getUserinfo(username);
     if (user) {
       const { uid } = user;
       const token = jwt.sign({ data: { uid } }, cipher);

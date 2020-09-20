@@ -30,9 +30,9 @@ const dir = resolve(__dirname, "../mock");
 const attachMocker = createAttachMocker(dir, {
   onUrlencodedParser: true,
   onJsonBodyParser: true,
-  onLogger: false,
-  onWatcher: false,
-  onRouteParametersCapturer: false
+  onLogger: true,
+  onWatcher: true,
+  onRouteParametersCapturer: true
 });
 attachMocker(app);
 

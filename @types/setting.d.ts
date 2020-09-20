@@ -16,4 +16,3 @@ declare module "@/setting" {
   declare const setting: Setting;
   export default setting;
 }
-

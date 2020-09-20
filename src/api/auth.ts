@@ -2,7 +2,7 @@
 import request from "@/helpers/request";
 
 export function login(data: { username: string; password: string }) {
-  return request({ url: "/auth/login", data });
+  return request({ url: "/auth/login", method: "post", data });
 }
 export function logout() {
   return request({ url: "/auth/logout", method: "get" });

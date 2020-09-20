@@ -18,6 +18,7 @@ export default defineComponent({
   name: "Error404",
   setup() {
     const router = useRouter();
+
     const [remaining] = useCountdown(10, () => {
       router.push("/");
     });

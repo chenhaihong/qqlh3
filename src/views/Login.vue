@@ -47,6 +47,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
 import setting from "@/setting";
 
 function useStaticSetting() {
@@ -72,28 +74,40 @@ function useStaticSetting() {
   };
 }
 
+function useLogin() {
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+  const loginState = reactive({
+    isLoading: false,
+    username: "haihong",
+    password: "123123",
+  });
+  const disabled = computed(
+    () => loginState.isLoading || !loginState.username || !loginState.password
+  );
+  const login = async () => {
+    if (loginState.isLoading) return;
+    loginState.isLoading = true;
+    const { username, password } = loginState;
+    const [err] = await store.dispatch("auth/login", {
+      username,
+      password,
+    });
+    loginState.isLoading = false;
+    if (err) return;
+    const redirect = route.query.redirect as string;
+    router.push(redirect ? decodeURIComponent(redirect) : "/home");
+  };
+  return { loginState, disabled, login };
+}
+
 export default defineComponent({
   name: "Login",
   setup() {
-    const staticSetting = useStaticSetting();
-    const loginState = reactive({
-      isLoading: false,
-      username: "haihong",
-      password: "123123",
-    });
-    const disabled = computed(
-      () => loginState.isLoading || !loginState.username || !loginState.password
-    );
-    const login = (): void => {
-      if (loginState.isLoading) return;
-      loginState.isLoading = true;
-    };
-
     return {
-      ...staticSetting,
-      loginState,
-      disabled,
-      login,
+      ...useStaticSetting(),
+      ...useLogin(),
     };
   },
 });
