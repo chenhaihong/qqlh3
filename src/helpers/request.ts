@@ -1,6 +1,6 @@
 import axios, { CustomedResponseData } from "axios";
 // import { MessageBox, Message } from "element-ui";
-// import store from "@/store";
+import store from "@/store";
 // import router from "@/router";
 
 // create an axios instance
@@ -16,10 +16,10 @@ const request = axios.create({
 
 // request interceptor
 request.interceptors.request.use(config => {
-  // const { token } = store.state;
-  // if (token) {
-  //   config.headers.Authorization = token;
-  // }
+  const { token } = store.state.auth;
+  if (token) {
+    config.headers.Authorization = token;
+  }
   return config;
 });
 

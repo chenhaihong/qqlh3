@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    redirect: "/login",
+    redirect: "/home",
     path: "/",
     name: "/",
     meta: { hidden: true }
@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: "/404",
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    meta: { title: "首页" },
+    meta: { hidden: true, title: "首页", },
   },
 ]
-export default routes
+export default routes;

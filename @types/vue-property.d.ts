@@ -1,3 +1,5 @@
+// vue 2 的方式
+
 import Vue from 'vue'
 import VueRouter, { Route } from 'vue-router'
 import { Store } from 'vuex'
