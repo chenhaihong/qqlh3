@@ -3,7 +3,6 @@
     <router-link to="/">
       <img class="logo" :src="logo" :alt="alt" />
     </router-link>
-
     <ul class="userinfo">
       <li>
         <p>{{ userinfo.nickname }}</p>
@@ -103,7 +102,7 @@ export default defineComponent({
           left: -10px;
         }
       }
-      &:hover {
+      &:hover{
         background-color: @header-userinfo-li-hover-background-color;
         .popover--profile {
           display: block;

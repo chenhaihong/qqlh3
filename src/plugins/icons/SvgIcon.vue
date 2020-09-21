@@ -1,5 +1,6 @@
 <template>
   <svg :class="svgClass">
+    <!-- https://github.com/vuejs/rfcs/blob/amend-optional-props/active-rfcs/0031-attr-fallthrough.md -->
     <!-- <svg :class="svgClass" v-on="$listeners"> -->
     <use :xlink:href="iconName" />
   </svg>
@@ -8,12 +9,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 export default defineComponent({
-  // By setting the inheritAttrs option to false,
-  // this gives you access to the component's $attrs property,
-  // which includes all attributes not included to component props
-  // and emits properties (e.g., class, style, v-on listeners, etc.).
-  // https://www.josephxia.com/guide/component-attrs.html#disabling-attribute-inheritance
-  // inheritAttrs: false,
   name: "SvgIcon",
   props: {
     iconClass: {

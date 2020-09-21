@@ -11,6 +11,9 @@
       <li>Nickname: {{userinfo.nickname}}</li>
       <li>RoleName: {{userinfo.roleName}}</li>
     </ul>
+    <pre>
+      <code class="javascript"  v-hljs>const a = 100;</code>
+    </pre>
     <button @click="logout">注销</button>
   </div>
 </template>
@@ -21,7 +24,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'DataView',
+  name: "DataView",
   setup() {
     const router = useRouter();
     const store = useStore();
