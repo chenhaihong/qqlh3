@@ -25,6 +25,13 @@ import { Router, NavigationGuard } from 'vue-router'
 
 const commonPaths: string[] = ["/login", "/404", "/403", "/500"]; // 无需鉴权
 const createBeforeEach = (router: Router): NavigationGuard => async (to) => {
+  if (router.__fullPathStack__.includes(to.fullPath)) {
+    router.__routerType__ = to.meta.keepAlive ? "backward" : "forward";
+  } else {
+    router.__fullPathStack__.push(to.fullPath);
+    router.__routerType__ = "forward";
+  }
+
   // // 提前处理link外链
   // if (to.meta && to.meta.link && !to.meta.link.startsWith("/")) {
   //   return confirmLink(to.meta.link, {

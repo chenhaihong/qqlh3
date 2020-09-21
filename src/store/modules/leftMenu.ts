@@ -10,7 +10,7 @@ import { RouteRecordRaw } from 'vue-router'
 type State = {
   fixed: boolean;
   show: boolean;
-  visibledAddressableRoutes: RouteRecordRaw[];
+  visibledAddressableRoutes: readonly RouteRecordRaw[];
 }
 
 class LocalDefaultShow {
@@ -99,6 +99,6 @@ export default {
       LocalDefaultFixed.set(state.fixed);
     }
   }
-} as Module<any, any>;
+} as Module<State, any>;
 
 

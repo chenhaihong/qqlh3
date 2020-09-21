@@ -1,5 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
+import MainLayout from '@/layouts/MainLayout.vue'
+
 const routes: Array<RouteRecordRaw> = [
   {
     redirect: "/home",
@@ -32,16 +34,45 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/Login.vue")
   },
   {
+    path: "/DataView",
+    name: "DataView",
+    meta: { hidden: false, title: "数据面板" },
+    component: () => import("@/views/DataView/index.vue")
+  },
+  {
     path: "/home",
     name: "Home",
     meta: { title: "首页" },
-    component: () => import("@/views/Home.vue")
+    component: MainLayout,
+    children: [
+      {
+        path: "",
+        name: "Home",
+        meta: { hidden: true, title: "首页", keepAlive: true },
+        component: () => import("@/views/DataView/index.vue"),
+
+      }
+    ]
+  },
+  {
+    // 使用文档
+    path: "/doc",
+    meta: { title: "使用文档", icon: "doc", roles: [2] },
+    component: MainLayout,
+    children: [
+      {
+        path: "/doc",
+        name: "DocIndex",
+        meta: { title: "项目使用指南", roles: [2] },
+        component: () => import("@/views/doc/DocIndex.vue")
+      },
+    ]
   },
   {
     redirect: "/404",
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    meta: { hidden: true, title: "首页", },
+    meta: { hidden: true, title: "404", },
   },
 ]
 export default routes;
