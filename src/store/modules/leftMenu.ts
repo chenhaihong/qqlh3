@@ -55,20 +55,25 @@ function getVisibledAddressableRoutes(
       !routeRoles.length || // 2.1 任意已经登录的角色可以访问
       hasIntersect(userRoles, routeRoles) // 2.2 用户角色与路由可访问的角色有交集
     ) {
-      // 构造节点
-      const nNode = {} as RouteRecordRaw;
       // eslint-disable-next-line
-      const { children, component, ...reset } = raw;
-      nNode.path = resolve(basePath, reset.path);
+      const { children, path } = raw;
+      // 构造route节点，
+      // 自定义的route的数据格式跟 RouteRecordRaw 十分相似,
+      // 所以，此处直接使用它来
+      const route = {
+        path: resolve(basePath, path),
+        name: raw.name,
+        meta: { ...meta },
+      } as RouteRecordRaw;
 
       if (children && children.length) {
-        nNode.children = getVisibledAddressableRoutes(
+        route.children = getVisibledAddressableRoutes(
           children,
           userRoles,
-          reset.path
+          path
         );
       }
-      visibledAddressableRoutes.push({ ...nNode });
+      visibledAddressableRoutes.push({ ...route });
     }
   });
   return visibledAddressableRoutes;
@@ -100,5 +105,3 @@ export default {
     }
   }
 } as Module<State, any>;
-
-

@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.breadcrumb">
-    <i :class="[$style.toggler, show ? 'el-icon-s-fold' : 'el-icon-s-unfold']" @click="toggleShow" />
+    <SvgIcon :class="$style.toggler"  :iconClass="show ? 'menu-fold-line' : 'menu-unfold-line'" @click="toggleShow" />
     <div :class="$style.square"></div>
     <a v-if="$route.name == 'Home'" :class="[$style.link, $style.disabled]">首页</a>
     <template v-else>

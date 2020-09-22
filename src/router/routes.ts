@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/403",
     name: "Error403",
-    meta: { hidden: true, title: "403" },
+    meta: { hidden: true, title: "403", },
     component: () => import("@/views/403.vue")
   },
   {
@@ -36,32 +36,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/DataView",
     name: "DataView",
-    meta: { hidden: false, title: "数据面板" },
+    meta: { hidden: true, title: "数据面板" },
     component: () => import("@/views/DataView/index.vue")
   },
   {
     path: "/home",
     name: "Home",
-    meta: { title: "首页" },
+    meta: { title: "首页", icon: 'home' },
     component: MainLayout,
     children: [
       {
         path: "",
-        name: "Home",
+        name: "HomeIndex",
         meta: { hidden: true, title: "首页", keepAlive: true },
         component: () => import("@/views/DataView/index.vue"),
-
       }
     ]
   },
   {
     // 使用文档
     path: "/doc",
+    name: 'Doc',
     meta: { title: "使用文档", icon: "doc", roles: [2] },
     component: MainLayout,
     children: [
       {
-        path: "/doc",
+        path: "",
         name: "DocIndex",
         meta: { title: "项目使用指南", roles: [2] },
         component: () => import("@/views/doc/DocIndex.vue")
