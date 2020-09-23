@@ -12,8 +12,7 @@
       <li>RoleName: {{userinfo.roleName}}</li>
     </ul>
     <pre>
-      <!-- <code class="javascript"  v-hljs>const a = 100;</code> -->
-      <code class="javascript">const a = 100;</code>
+      <code class="javascript" v-hljs>const a = 100;</code>
     </pre>
     <div>
       <router-link to="/doc">
