@@ -7,11 +7,11 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, ref, watchEffect } from "vue";
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import NavMenu from "./cell/NavMenu";
+import NavMenu from "./cell/NavMenu.vue";
 
 function useLeftMenu() {
   const store = useStore();
@@ -26,12 +26,9 @@ function useLeftMenu() {
   };
   return { visibledAddressableRoutes, fixed, toggleFixed };
 }
-function useDefaultActive() {
+function useStaticDefaultActive() {
   const route = useRoute();
-  const defaultActive = ref("");
-  watchEffect(() => {
-    defaultActive.value = route.name;
-  });
+  const defaultActive = route.path;
   return { defaultActive };
 }
 
@@ -41,27 +38,16 @@ export default defineComponent({
   setup() {
     return {
       ...useLeftMenu(),
-      ...useDefaultActive(),
+      ...useStaticDefaultActive(),
     };
   },
 });
 </script>
 
-<style lang="less">
-.leftMenu-comfirm-link {
-  color: @leftMenu-comfirm-link-color;
-  &:hover {
-    text-decoration: underline;
-    color: @leftMenu-comfirm-link-color;
-  }
-}
-</style>
-
 <style lang="less" scoped>
 .left-menu {
   // padding-bottom: @leftMenu-pin-height;
-
-  ::v-deep .el-menu {
+  ::v-deep(.el-menu) {
     border-right: none;
     background: none;
 
@@ -76,7 +62,6 @@ export default defineComponent({
       color: @leftMenu-menu-color;
       font-size: @leftMenu-menu-font-size;
       background: none;
-      transition: none;
     }
 
     // 一级菜单

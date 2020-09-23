@@ -1,6 +1,11 @@
 <template>
   <div>
     <h1>doc idnex</h1>
+    <div>
+      <router-link to="/home">
+        <button>前往 Home</button>
+      </router-link>
+    </div>
   </div>
 </template>
 

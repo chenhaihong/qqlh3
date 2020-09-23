@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="app-fade">
+    <transition name="app-fade" type="transition" :duration="300" appear mode="out-in">
       <component :is="Component" />
     </transition>
   </router-view>
@@ -20,7 +20,7 @@ export default defineComponent({
 }
 .app-fade-enter-active,
 .app-fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity .3s ease-in-out;
 }
 .app-fade-enter-to,
 .app-fade-leave {

@@ -8,23 +8,27 @@
         'mainLayout__body--fixedLeftMenu': fixed
       }"
     >
-      <transition name="el-fade-in-linear">
+      <transition name="fade" persisted appear>
         <div v-show="fixed && show" class="mainLayout__body__left-menu-shadow" @click="toggleShow" />
       </transition>
-      <transition name="slide">
+      <transition name="slide" persisted appear>
         <LeftMenu v-show="show" class="mainLayout__body__left-menu" />
       </transition>
       <Breadcrumb class="mainLayout__body__breadcrumb" />
       <div ref="refView" class="mainLayout__body__childView">
         <router-view v-slot="{ Component }">
-          <transition :name="transitionName">
+          <transition
+            :name="transitionName"
+            type="transition"
+            :duration="{enter : 3000, leave : 0}"
+          >
             <keep-alive>
               <component v-if="isKeepAlive" :is="Component" />
             </keep-alive>
           </transition>
         </router-view>
         <router-view v-slot="{ Component }">
-          <transition :name="transitionName">
+          <transition :name="transitionName" type="transition" :duration="{enter : 300, leave : 0}">
             <component v-if="!isKeepAlive" :is="Component" />
           </transition>
         </router-view>
@@ -34,8 +38,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUpdated, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { computed, defineComponent, onUpdated, ref } from "vue";
+import { useRoute, useRouter, onBeforeRouteLeave } from "vue-router";
 import { useStore } from "vuex";
 
 import Head from "./components/Head.vue";
@@ -44,15 +48,12 @@ import Breadcrumb from "./components/Breadcrumb.vue";
 
 function useTransitionNameOfChildView() {
   const transitionName = ref("cv-slide-left");
-  const route = useRoute();
   const router = useRouter();
-
-  watch([route], () => {
+  onBeforeRouteLeave((to, from) => {
     const { __routerType__ } = router;
     transitionName.value =
       __routerType__ === "forward" ? "cv-slide-left" : "cv-slide-right";
   });
-
   return transitionName;
 }
 function useAutoSrollToTopChildView() {
@@ -66,9 +67,7 @@ function useAutoSrollToTopChildView() {
 }
 function useKeepAliveChildView() {
   const route = useRoute();
-  const isKeepAlive = computed(() => {
-    return !!route.meta.keepAlive;
-  });
+  const isKeepAlive = computed(() => !!route.meta.keepAlive);
   return isKeepAlive;
 }
 function useInverterOfLeftMenu() {
@@ -180,35 +179,5 @@ export default defineComponent({
   background: @childView-background-color;
   // scroll-behavior: smooth;
   overflow: auto;
-}
-</style>
-
-<style lang="less">
-// slide-left
-.cv-slide-left-enter {
-  opacity: 0;
-  transform: translate(20px, 0);
-}
-.cv-slide-left-enter-active {
-  transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1),
-    transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
-}
-.cv-slide-left-enter-to {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-// slide-right
-.cv-slide-right-enter {
-  opacity: 0;
-  transform: translate(-20px, 0);
-}
-.cv-slide-right-enter-active {
-  transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1),
-    transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
-}
-.cv-slide-right-enter-to {
-  opacity: 1;
-  transform: translate(0, 0);
 }
 </style>

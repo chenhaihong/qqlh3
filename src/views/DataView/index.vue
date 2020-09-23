@@ -12,8 +12,14 @@
       <li>RoleName: {{userinfo.roleName}}</li>
     </ul>
     <pre>
-      <code class="javascript"  v-hljs>const a = 100;</code>
+      <!-- <code class="javascript"  v-hljs>const a = 100;</code> -->
+      <code class="javascript">const a = 100;</code>
     </pre>
+    <div>
+      <router-link to="/doc">
+        <button>前往 DocIndex</button>
+      </router-link>
+    </div>
     <button @click="logout">注销</button>
   </div>
 </template>

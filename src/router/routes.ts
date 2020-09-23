@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
 import MainLayout from '@/layouts/MainLayout.vue'
+const EmptyComponent = { render() { return null } }
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +41,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/DataView/index.vue")
   },
   {
+    // 首页
     path: "/home",
     name: "Home",
     meta: { title: "首页", icon: 'home' },
@@ -52,6 +54,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/DataView/index.vue"),
       }
     ]
+  },
+  {
+    path: "/MySite",
+    name: "MySite",
+    meta: { hidden: false, icon: 'github', link: 'https://tiiit.cn', title: "我的站点" },
+    component: EmptyComponent
   },
   {
     // 使用文档

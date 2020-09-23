@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from "vue";
+import { defineComponent, inject } from "vue";
 import { Emitter } from "mitt";
 
 import NavMenuItem from "./NavMenuItem.vue";
@@ -33,7 +33,7 @@ export default defineComponent({
       default: 1,
     },
   },
-  setup(props) {
+  setup() {
     const pubsub: any = inject<Emitter>("rootMenuPubsub");
     const openNames: any = inject("openNames");
     const clickItem = (item: any, level: number) => {
@@ -49,5 +49,18 @@ export default defineComponent({
   font-size: @leftMenu-menu-font-size;
   line-height: @leftMenu-menu-height;
   color: @leftMenu-menu-color;
+
+  &.subMenu {
+    ::v-deep .navMenuItem {
+      color: @leftMenu-submenu-color;
+      background: @leftMenu-submenu-background-color;
+
+      &:hover,
+      &.active {
+        color: @leftMenu-submenu-active-color;
+        background: @leftMenu-submenu-active-background-color;
+      }
+    }
+  }
 }
 </style>
