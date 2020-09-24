@@ -56,9 +56,9 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/MySite",
-    name: "MySite",
-    meta: { hidden: false, icon: 'github', link: 'https://tiiit.cn', title: "我的站点" },
+    path: "/Github",
+    name: "GithubHaihong",
+    meta: { hidden: false, icon: 'github', link: 'https://github.com/chenhaihong/qqlh3', title: "Github代码" },
     component: EmptyComponent
   },
   {
@@ -69,11 +69,71 @@ const routes: Array<RouteRecordRaw> = [
     component: MainLayout,
     children: [
       {
-        path: "",
+        path: "/doc",
         name: "DocIndex",
         meta: { title: "项目使用指南", roles: [2] },
         component: () => import("@/views/doc/DocIndex.vue")
       },
+      {
+        path: "/doc/style",
+        name: "DocSetting",
+        meta: { title: "项目配置", roles: [2] },
+        component: () => import("@/views/doc/DocSetting.vue")
+      },
+      {
+        path: "/doc/route",
+        name: "DocRoute",
+        meta: { title: "路由配置", roles: [2] },
+        component: () => import("@/views/doc/DocRoute.vue")
+      },
+      {
+        path: "/doc/common-paths",
+        name: "DocCommonPaths",
+        meta: { title: "白名单页面", roles: [2] },
+        component: () => import("@/views/doc/DocCommonPaths.vue")
+      },
+      {
+        path: "/doc/permission",
+        name: "DocPermission",
+        meta: { title: "菜单权限", roles: [2] },
+        component: () => import("@/views/doc/DocPermission.vue")
+      },
+      {
+        path: "/doc/auth",
+        name: "DocAuth",
+        meta: { title: "鉴权逻辑", roles: [2] },
+        component: () => import("@/views/doc/DocAuth.vue")
+      },
+      {
+        path: "/doc/svg",
+        name: "DocSvg",
+        meta: { title: "Svg图标", roles: [2] },
+        component: () => import("@/views/doc/DocSvg.vue")
+      },
+      {
+        path: "/doc/service",
+        name: "DocService",
+        meta: { title: "数据请求", roles: [2] },
+        component: () => import("@/views/doc/DocService.vue")
+      },
+      {
+        path: "/doc/mock",
+        name: "DocMock",
+        meta: { title: "数据模拟", roles: [2] },
+        component: () => import("@/views/doc/DocMock.vue")
+      },
+      {
+        path: "/doc/lodash-template",
+        name: "DocLodashTemplate",
+        meta: { title: "Lodash模板", roles: [2] },
+        component: () => import("@/views/doc/DocLodashTemplate.vue")
+      },
+      {
+        path: "/doc/element-ui",
+        name: "DocElement",
+        meta: { title: "饿了么UI", roles: [2] },
+        component: () => import("@/views/doc/DocElement.vue")
+      }
     ]
   },
   {

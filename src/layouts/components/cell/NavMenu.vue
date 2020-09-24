@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, onUnmounted, provide, ref } from "vue";
-import { useRouter, Router } from "vue-router";
+import { useRouter, Router, onBeforeRouteLeave } from "vue-router";
 import NavMenuList from "./NavMenuList.vue";
 
 import mitt from "@/helpers/mitt";
@@ -44,6 +44,11 @@ export default defineComponent({
     provide("openNames", openNames);
     onUnmounted(() => {
       pubsub.all.clear();
+    });
+    onBeforeRouteLeave((to) => {
+      const names = resolveMatchedNames(to.path, router);
+      activeNames.value = names;
+      openNames.value = [...openNames.value, ...names];
     });
 
     pubsub.on("clickItem", ({ item }) => {
