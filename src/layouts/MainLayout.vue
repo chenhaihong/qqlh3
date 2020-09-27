@@ -17,8 +17,13 @@
       <Breadcrumb class="mainLayout__body__breadcrumb" />
       <div ref="refView" class="mainLayout__body__childView">
         <router-view v-slot="{ Component }">
+          <transition name="slide" type="transition" :duration="{enter : 300, leave : 300}" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+        <!-- <router-view v-slot="{ Component }">
           <transition
-            :name="transitionName"
+            name="cv-slide-left"
             type="transition"
             :duration="{enter : 3000, leave : 0}"
           >
@@ -28,10 +33,10 @@
           </transition>
         </router-view>
         <router-view v-slot="{ Component }">
-          <transition :name="transitionName" type="transition" :duration="{enter : 300, leave : 0}">
+          <transition name="cv-slide-left" type="transition" :duration="{enter : 300, leave : 0}">
             <component v-if="!isKeepAlive" :is="Component" />
           </transition>
-        </router-view>
+        </router-view> -->
       </div>
     </div>
   </div>
@@ -49,8 +54,8 @@ import Breadcrumb from "./components/Breadcrumb.vue";
 function useTransitionNameOfChildView() {
   const transitionName = ref("cv-slide-left");
   const router = useRouter();
-  onBeforeRouteLeave((to, from) => {
-    const { __routerType__ } = router;
+  onBeforeRouteLeave(() => {
+    const __routerType__ = router.__routerType__ as string;
     transitionName.value =
       __routerType__ === "forward" ? "cv-slide-left" : "cv-slide-right";
   });

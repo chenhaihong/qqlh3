@@ -75,6 +75,21 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/doc/DocIndex.vue")
       },
       {
+        path: "/doc/types",
+        name: "DocDypes",
+        meta: { title: "声明文件", roles: [2] },
+        // component: () => import("@/views/doc/DocTypes.vue"),
+        component: MainLayout,
+        children: [
+          {
+            path: "/doc/types/ts",
+            name: "DocDypes",
+            meta: { title: "声明文件ts", roles: [2] },
+            component: () => import("@/views/doc/DocTypes.vue"),
+          }
+        ]
+      },
+      {
         path: "/doc/style",
         name: "DocSetting",
         meta: { title: "项目配置", roles: [2] },
