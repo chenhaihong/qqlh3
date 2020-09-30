@@ -5,16 +5,33 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import SvgIcon from "@/plugins/SvgIcon";
-import installTui from "@/plugins/t-ui";
-import createHlksDirective from "@/directives/hljs";
-
 const app = createApp(App)
   .use(store)
   .use(router);
-app.component("SvgIcon", SvgIcon);
-installTui(app);
 
-createHlksDirective(app);
+{
+  const plugins = require.context("./plugins", false, /\.ts$/);
+  plugins.keys().map((filename) => {
+    const plugin = plugins(filename);
+    if (typeof plugin === "function" || plugin["install"]) app.use(plugin);
+  });
+}
+
+{
+  const mixins = require.context("./mixins", false, /\.ts$/);
+  mixins.keys().map((filename) => {
+    const mixin = mixins(filename);
+    if (typeof mixin === "function" || mixin["install"]) app.use(mixin);
+  });
+}
+
+{
+  const directives = require.context("./directives", false, /\.ts$/);
+  directives.keys().map((filename) => {
+    const directive = directives(filename);
+    if (typeof directive === "function" || directive["install"])
+      app.use(directive);
+  });
+}
 
 app.mount("#app");

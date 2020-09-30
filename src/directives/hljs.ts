@@ -1,11 +1,10 @@
 import { App } from "vue";
-import mitt from '@/helpers/mitt'
+import mitt from "@/helpers/mitt";
 
-const bus = mitt()
+const bus = mitt();
 
 let styleStatus = 0;
 let jsStatus = 0;
-
 
 function render(el: any) {
   if (el.__hljsDOM__) {
@@ -49,9 +48,8 @@ function loadJs() {
   });
 }
 
-
 // 注册一个全局自定义指令 `v-hljs`
-const createHlksDirective = (app: App) => {
+const install = (app: App) => {
   app.directive("hljs", {
     beforeMount() {
       if (styleStatus <= 0) {
@@ -61,7 +59,7 @@ const createHlksDirective = (app: App) => {
             if (jsStatus === 1) bus.emit("ready");
           },
           // eslint-disable-next-line
-          () => { }
+          () => {}
         );
       }
       if (jsStatus <= 0) {
@@ -71,7 +69,7 @@ const createHlksDirective = (app: App) => {
             if (styleStatus === 1) bus.emit("ready");
           },
           // eslint-disable-next-line
-          () => { }
+          () => {}
         );
       }
     },
@@ -92,7 +90,8 @@ const createHlksDirective = (app: App) => {
           render(el);
         });
       }
-    }
+    },
   });
-}
-export default createHlksDirective
+};
+
+export { install };

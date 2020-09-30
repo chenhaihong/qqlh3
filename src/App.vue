@@ -20,7 +20,7 @@ export default defineComponent({
 }
 .app-fade-enter-active,
 .app-fade-leave-active {
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 .app-fade-enter-to,
 .app-fade-leave {

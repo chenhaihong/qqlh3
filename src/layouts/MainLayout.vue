@@ -8,43 +8,34 @@
         'mainLayout__body--fixedLeftMenu': fixed
       }"
     >
-      <transition name="fade" persisted appear>
+      <transition name="qqlh-fade" persisted appear>
         <div v-show="fixed && show" class="mainLayout__body__left-menu-shadow" @click="toggleShow" />
       </transition>
-      <transition name="slide" persisted appear>
+      <transition name="qqlh-slide" persisted appear>
         <LeftMenu v-show="show" class="mainLayout__body__left-menu" />
       </transition>
       <Breadcrumb class="mainLayout__body__breadcrumb" />
       <div ref="refView" class="mainLayout__body__childView">
         <router-view v-slot="{ Component }">
-          <transition name="slide" type="transition" :duration="{enter : 300, leave : 300}" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-        <!-- <router-view v-slot="{ Component }">
-          <transition
-            name="cv-slide-left"
-            type="transition"
-            :duration="{enter : 3000, leave : 0}"
-          >
+          <transition :name="transitionName" type="transition" appear>
             <keep-alive>
               <component v-if="isKeepAlive" :is="Component" />
             </keep-alive>
           </transition>
         </router-view>
         <router-view v-slot="{ Component }">
-          <transition name="cv-slide-left" type="transition" :duration="{enter : 300, leave : 0}">
+          <transition :name="transitionName" type="transition" appear>
             <component v-if="!isKeepAlive" :is="Component" />
           </transition>
-        </router-view> -->
+        </router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUpdated, ref } from "vue";
-import { useRoute, useRouter, onBeforeRouteLeave } from "vue-router";
+import { computed, defineComponent, onUpdated, ref, watch } from "vue";
+import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router";
 import { useStore } from "vuex";
 
 import Head from "./components/Head.vue";
@@ -52,12 +43,13 @@ import LeftMenu from "./components/LeftMenu.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 
 function useTransitionNameOfChildView() {
-  const transitionName = ref("cv-slide-left");
+  const transitionName = ref("qqlh-slide-left");
   const router = useRouter();
-  onBeforeRouteLeave(() => {
+  const route = useRoute();
+  watch([() => route.fullPath], () => {
     const __routerType__ = router.__routerType__ as string;
     transitionName.value =
-      __routerType__ === "forward" ? "cv-slide-left" : "cv-slide-right";
+      __routerType__ === "forward" ? "qqlh-slide-left" : "qqlh-slide-right";
   });
   return transitionName;
 }
