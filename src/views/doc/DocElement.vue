@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <h1>doc idnex</h1>
-    <div>
-      <router-link to="/home">
-        <button>前往 Home</button>
-      </router-link>
-    </div>
-  </div>
+  <TContainer>
+    <template v-slot:head>
+      <h1>使用了饿了么UI</h1>
+    </template>
+    <template v-slot:default>
+      文档地址：
+      <a
+        target="_blank"
+        href="https://element.eleme.cn/#/zh-CN"
+      >https://element.eleme.cn/#/zh-CN</a>
+    </template>
+  </TContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "DocIndex",
+  name: "DocElement",
   setup() {
     return {};
   },

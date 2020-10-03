@@ -9,29 +9,16 @@ const app = createApp(App)
   .use(store)
   .use(router);
 
-{
-  const plugins = require.context("./plugins", false, /\.ts$/);
-  plugins.keys().map((filename) => {
-    const plugin = plugins(filename);
-    if (typeof plugin === "function" || plugin["install"]) app.use(plugin);
+function importAll(request: any) {
+  request.keys().map((key: string) => {
+    const one = request(key);
+    if (typeof one === "function" || typeof one["install"] === "function")
+      app.use(one);
   });
 }
 
-{
-  const mixins = require.context("./mixins", false, /\.ts$/);
-  mixins.keys().map((filename) => {
-    const mixin = mixins(filename);
-    if (typeof mixin === "function" || mixin["install"]) app.use(mixin);
-  });
-}
-
-{
-  const directives = require.context("./directives", false, /\.ts$/);
-  directives.keys().map((filename) => {
-    const directive = directives(filename);
-    if (typeof directive === "function" || directive["install"])
-      app.use(directive);
-  });
-}
+importAll(require.context("./plugins", false, /\.ts$/));
+importAll(require.context("./mixins", false, /\.ts$/));
+importAll(require.context("./directives", false, /\.ts$/));
 
 app.mount("#app");

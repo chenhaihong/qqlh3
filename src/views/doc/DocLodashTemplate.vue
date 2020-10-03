@@ -1,23 +1,65 @@
 <template>
-  <div>
-    <h1>doc idnex</h1>
-    <div>
-      <router-link to="/home">
-        <button>前往 Home</button>
-      </router-link>
-    </div>
-  </div>
+  <TContainer>
+    <template v-slot:head>
+      <h1>Lodash模板</h1>
+      <br />
+      <p>HtmlWebpackPlugin 默认使用 Lodash Tempalte 的模板语法，需要了解一下。</p>
+    </template>
+    <template v-slot:default>
+      <h2>1. Lodash模板 - 文档地址</h2>
+      <br />
+      <p>
+        英文文档 -
+        <a
+          target="_blank"
+          href="https://lodash.com/docs/4.17.15#template"
+        >https://lodash.com/docs/4.17.15#template</a>
+      </p>
+      <p>
+        中文文档 -
+        <a
+          target="_blank"
+          href="http://lodash.think2011.net/template"
+        >http://lodash.think2011.net/template</a>
+      </p>
+
+      <br />
+      <br />
+
+      <h2>2. 如何为模板页面添加变量？</h2>
+      <br />
+      <p>在 vue.config.js 里的 useHtmlOptions 中添加。</p>
+      <pre>
+        <code class="javascript" v-hljs>{{vueConfig}}</code>
+      </pre>
+
+      <h2>3. 模板页面如何使用变量？</h2>
+      <pre>
+        <code class="html" v-hljs>{{htmlTemplate}}</code>
+      </pre>
+    </template>
+  </TContainer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+export const vueConfig = `// ......
+function useHtmlOptions(config) {
+  config.plugin("html").tap(options => {
+    options[0].title = setting.name;
+    options[0].isDev = isDev;
+    return options;
+  });
+}
+// ......
+      `;
+export const htmlTemplate = `<title><%= htmlWebpackPlugin.options.title %></title>
 
-export default defineComponent({
-  name: "DocIndex",
-  setup() {
-    return {};
-  },
-});
+<% if(htmlWebpackPlugin.options.isDev) {%>
+<p>开发模式</p>
+<% } else { %>
+<p>其他模式</p>
+<% } %>
+      `;
 </script>
 
 <style scoped>

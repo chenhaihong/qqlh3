@@ -6,7 +6,7 @@ const bus = mitt();
 let styleStatus = 0;
 let jsStatus = 0;
 
-function render(el: any) {
+function highlight(el: any) {
   if (el.__hljsDOM__) {
     el.__hljsDOM__.remove();
     el.__hljsDOM__ = null;
@@ -25,71 +25,77 @@ function render(el: any) {
   (window as any).hljs.highlightBlock(copy);
 }
 
+function render(el: any) {
+  if (styleStatus === 1 && jsStatus === 1) {
+    highlight(el);
+  } else {
+    const readyFunc = () => {
+      el.__hljsReadyFunc__ = null;
+      highlight(el);
+    };
+    el.__hljsReadyFunc__ = readyFunc;
+    bus.once("ready", readyFunc);
+  }
+}
+
 function loadStyle() {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     const link = document.createElement("link");
     link.href =
       "https://cdn.staticfile.org/highlight.js/10.2.0/styles/vs2015.min.css";
     link.rel = "stylesheet";
-    link.addEventListener("load", res);
-    link.addEventListener("error", rej);
+    link.addEventListener("load", () => {
+      styleStatus = 1;
+      res(true);
+    });
+    link.addEventListener("error", () => {
+      styleStatus = -1;
+      res(false);
+    });
     document.head.appendChild(link);
   });
 }
 
 function loadJs() {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     const script = document.createElement("script");
     script.src =
       "https://cdn.staticfile.org/highlight.js/10.2.0/highlight.min.js";
-    script.addEventListener("load", res);
-    script.addEventListener("error", rej);
+    script.addEventListener("load", () => {
+      jsStatus = 1;
+      res(true);
+    });
+    script.addEventListener("error", () => {
+      jsStatus = -1;
+      res(false);
+    });
     document.body.appendChild(script);
   });
+}
+
+async function loadAll() {
+  const [res1, res2] = await Promise.all([loadStyle(), loadJs()]);
+  if (res1 && res2) {
+    bus.emit("ready");
+  } else {
+    loadAll();
+  }
 }
 
 // 注册一个全局自定义指令 `v-hljs`
 const install = (app: App) => {
   app.directive("hljs", {
     beforeMount() {
-      if (styleStatus <= 0) {
-        loadStyle().then(
-          () => {
-            styleStatus = 1;
-            if (jsStatus === 1) bus.emit("ready");
-          },
-          // eslint-disable-next-line
-          () => {}
-        );
-      }
-      if (jsStatus <= 0) {
-        loadJs().then(
-          () => {
-            jsStatus = 1;
-            if (styleStatus === 1) bus.emit("ready");
-          },
-          // eslint-disable-next-line
-          () => {}
-        );
-      }
+      loadAll();
     },
     mounted(el: HTMLElement) {
-      if (styleStatus === 1 && jsStatus === 1) {
-        render(el);
-      } else {
-        bus.once("ready", () => {
-          render(el);
-        });
-      }
+      render(el);
     },
     updated(el: HTMLElement) {
-      if (styleStatus === 1 && jsStatus === 1) {
-        render(el);
-      } else {
-        bus.once("ready", () => {
-          render(el);
-        });
-      }
+      render(el);
+    },
+    beforeUnmount(el: any) {
+      el.__hljsReadyFunc__ && bus.off("ready", el.__hljsReadyFunc__);
     },
   });
 };

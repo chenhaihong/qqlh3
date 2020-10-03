@@ -13,21 +13,21 @@
           >https://github.com/chenhaihong/qqlh3</a>。
         </p>
         <br />
-        <p>使用了 vue 全家桶，</p>
+        <p>使用了 vue3 全家桶，</p>
         <ol>
           <li>
-            - vue
+            - vue@3
             <a class="link" href="https://v3.cn.vuejs.org/" target="_blank">[zh]</a>
             <span>、</span>
             <a class="link" href="https://v3.vuejs.org/" target="_blank">[en]</a>
           </li>
           <li>
             -
-            <a class="link" href="https://vuex.vuejs.org/zh/" target="_blank">vuex</a>
+            <a class="link" href="https://vuex.vuejs.org/zh/" target="_blank">vuex@4</a>
           </li>
           <li>
             -
-            <a class="link" href="https://next.router.vuejs.org/" target="_blank">vue-router</a>
+            <a class="link" href="https://next.router.vuejs.org/" target="_blank">vue-router@4</a>
           </li>
         </ol>
         <br />
@@ -55,13 +55,8 @@
   </TContainer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "DocIndex",
-  setup() {
-    const code = `
+<script lang="ts" setup>
+export const code = `
 # 1 安装依赖
 yarn install
 
@@ -81,9 +76,6 @@ yarn lint
 # 5 预览
 yarn preview
     `;
-    return { code };
-  },
-});
 </script>
 
 <style scoped>

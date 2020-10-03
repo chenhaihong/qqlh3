@@ -1,47 +1,42 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <ul>
-      <li>
-        <img :src="userinfo.avatar" alt="avatar" />
-        <SvgIcon class="icon" iconClass="doc" />
-        <SvgIcon class="icon" iconClass="github" />
-      </li>
-      <li>Uid: {{userinfo.uid}}</li>
-      <li>Nickname: {{userinfo.nickname}}</li>
-      <li>RoleName: {{userinfo.roleName}}</li>
+    <button @click="toggle">Toggle</button>
+    <ul class="list" ref="ul">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
     </ul>
-    <pre>
-      <code class="javascript" v-hljs>const a = 100;</code>
-    </pre>
-    <div>
-      <router-link to="/doc">
-        <button>前往 DocIndex</button>
-      </router-link>
-    </div>
-    <button @click="logout">注销</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
   name: "DataView",
   setup() {
-    const router = useRouter();
-    const store = useStore();
-    const userinfo = store.state.auth.userinfo;
-    const logout = async () => {
-      const [err] = await store.dispatch("auth/logout");
-      if (!err) {
-        router.push("/login");
+    const ul = ref<HTMLUListElement>();
+    let show = true;
+    onMounted(() => {
+      const dom = ul.value as HTMLUListElement;
+      const h = dom.scrollHeight;
+      dom.style.height = h + "px";
+    });
+    const toggle = () => {
+      const dom = ul.value as HTMLUListElement;
+      if (show) {
+        dom.style.height = "0px";
+      } else {
+        const h = dom.scrollHeight;
+        dom.style.height = h + "px";
       }
+      show = !show;
     };
-
-    return { message: "hello world!", userinfo, logout };
+    return { ul, toggle };
   },
 });
 </script>
@@ -54,13 +49,10 @@ export default defineComponent({
   h1 {
     font-size: 80px;
   }
-  button {
-    margin-top: 20px;
-    font-size: 20px;
-  }
-  .icon {
-    color: red;
-    font-size: 50px;
+
+  .list {
+    overflow: hidden;
+    transition: height 0.1s ease 0s;
   }
 }
 </style>

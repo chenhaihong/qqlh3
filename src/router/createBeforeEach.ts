@@ -6,7 +6,7 @@ import store from "@/store";
 import hasIntersect from "@/helpers/hasIntersect";
 // import confirmLink from "@/helpers/confirmLink";
 
-import { Router, NavigationGuard } from 'vue-router'
+import { Router, NavigationGuard } from "vue-router";
 
 /**
  * 路由拦截逻辑
@@ -51,10 +51,10 @@ const createBeforeEach = (router: Router): NavigationGuard => async (to) => {
     // 1.2 其他页面，则眺望登录
     else {
       return router.replace({
-        name: 'Login',
+        name: "Login",
         query: {
-          redirect: encodeURIComponent(to.path)
-        }
+          redirect: encodeURIComponent(to.path),
+        },
       });
     }
   } else {
@@ -73,7 +73,7 @@ const createBeforeEach = (router: Router): NavigationGuard => async (to) => {
           return false;
         } else {
           store.commit("leftMenu/updateVisibledAddressableRoutes", {
-            roles: data.roles
+            roles: data.roles,
           });
         }
       }
@@ -90,6 +90,5 @@ const createBeforeEach = (router: Router): NavigationGuard => async (to) => {
       }
     }
   }
-
 };
 export default createBeforeEach;
