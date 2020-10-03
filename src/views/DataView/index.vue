@@ -27,14 +27,14 @@ export default defineComponent({
       dom.style.height = h + "px";
     });
     const toggle = () => {
+      show = !show;
       const dom = ul.value as HTMLUListElement;
       if (show) {
-        dom.style.height = "0px";
-      } else {
         const h = dom.scrollHeight;
         dom.style.height = h + "px";
+      } else {
+        dom.style.height = "0px";
       }
-      show = !show;
     };
     return { ul, toggle };
   },
