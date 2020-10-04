@@ -1,4 +1,4 @@
-export default function formatNumber(num: number): number | string {
+export default function formatNumber(num: number): string {
   if (num > 999) {
     const a = (num + "").split("");
     const b = [];
@@ -19,6 +19,6 @@ export default function formatNumber(num: number): number | string {
 
     return b.join(",");
   } else {
-    return num;
+    return num.toString();
   }
 }
