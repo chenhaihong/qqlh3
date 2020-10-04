@@ -63,6 +63,16 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/DataView",
+    name: "DataView",
+    meta: {
+      hidden: false,
+      icon: "data",
+      title: "数据大屏",
+    },
+    component: defineAsyncComponent(() => import("@/views/DataView/index.vue")),
+  },
+  {
     path: "/Github",
     name: "GithubHaihong",
     meta: {
